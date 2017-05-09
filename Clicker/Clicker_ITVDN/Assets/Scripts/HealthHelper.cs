@@ -10,12 +10,15 @@ namespace Monster
         public int Health = 100;
         public int Gold = 90;
 
-        GameHelper _gameHelper;
+        private GameHelper _gameHelper;
+
 
         // Use this for initialization
         private void Start()
         {
             _gameHelper = GameObject.FindObjectOfType<GameHelper>();
+            _gameHelper.HealthSlider.maxValue = MaxHealth;
+            _gameHelper.HealthSlider.value = MaxHealth;
         }
 
         public void GetHit(int damage)
@@ -29,6 +32,7 @@ namespace Monster
             }
 
             Health = health;
+            _gameHelper.HealthSlider.value = Health;
         }
     }
 }

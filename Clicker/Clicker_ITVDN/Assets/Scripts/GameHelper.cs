@@ -5,13 +5,17 @@ using UnityEngine.UI;
 
 public class GameHelper : MonoBehaviour
 {
+    public Slider HealthSlider;
     public Transform StartPosition;
-    
+
     public GameObject GoldPrefab;
     public GameObject[] MonstersPrefabs;
 
     public Text PlayerGoldUI;
+    public Text DamageTextUI;
+
     public int PlayerGold;
+    public int PlayerDamage = 10;
 
 
     // Use this for initialization
@@ -24,24 +28,21 @@ public class GameHelper : MonoBehaviour
     void Update()
     {
         PlayerGoldUI.text = PlayerGold.ToString();
+        DamageTextUI.text = PlayerDamage.ToString();
     }
 
     public void TakeGold(int gold)
     {
         PlayerGold += gold;
-
-        GameObject goldObj =  Instantiate(GoldPrefab) as GameObject;
-        Destroy(goldObj, 2);
-
+        GameObject goldObj = Instantiate(GoldPrefab) as GameObject;
+        Destroy(goldObj, 1);
         SpawnMonster();
     }
 
     public void SpawnMonster()
     {
-        int index = 0;
-
+        int index = Random.Range(0, MonstersPrefabs.Length);
         GameObject monsterObj = Instantiate(MonstersPrefabs[index]) as GameObject;
-
         monsterObj.transform.position = StartPosition.position;
     }
 }
