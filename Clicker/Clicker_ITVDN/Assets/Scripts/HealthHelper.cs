@@ -6,16 +6,21 @@ namespace Monster
 {
     public class HealthHelper : MonoBehaviour
     {
+        public int RubyChanse = 0;
+
         public int MaxHealth = 100;
         public int Health = 100;
         public int Gold = 90;
 
         private GameHelper _gameHelper;
+        private Animator _animator;
 
+        private bool _isDead = false;
 
         // Use this for initialization
         private void Start()
         {
+            _animator = GetComponent<Animator>();
             _gameHelper = GameObject.FindObjectOfType<GameHelper>();
             _gameHelper.HealthSlider.maxValue = MaxHealth;
             _gameHelper.HealthSlider.value = MaxHealth;
@@ -23,14 +28,25 @@ namespace Monster
 
         public void GetHit(int damage)
         {
+            if (_isDead)
+                return;
+
             int health = Health - damage;
+
 
             if (health <= 0)
             {
+                _isDead = true;
                 _gameHelper.TakeGold(Gold);
+
+                int random = Random.Range(0, 100);
+                if (random < RubyChanse)
+                    _gameHelper.TakeRuby(1);
+
                 Destroy(gameObject);
             }
 
+            _animator.SetTrigger("Hit");
             Health = health;
             _gameHelper.HealthSlider.value = Health;
         }

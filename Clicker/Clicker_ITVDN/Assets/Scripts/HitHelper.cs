@@ -6,7 +6,6 @@ namespace Monster
 {
     public class HitHelper : MonoBehaviour
     {
-        private Animator _animator;
         private HealthHelper _healthHelper;
 
         GameHelper _gameHelper;
@@ -14,7 +13,7 @@ namespace Monster
 
         private void Start()
         {
-            _animator = GetComponent<Animator>();
+            
             _healthHelper = GetComponent<HealthHelper>();
             _gameHelper = GameObject.FindObjectOfType<GameHelper>();
             _playerHelper = GameObject.FindObjectOfType<PlayerHelper>();
@@ -22,7 +21,9 @@ namespace Monster
 
         private void OnMouseDown()
         {
-            _animator.SetTrigger("Hit");
+            if (_gameHelper.EndGame)
+                return;
+
             _healthHelper.GetHit(_gameHelper.PlayerDamage);
             _playerHelper.RunAttack();
         }

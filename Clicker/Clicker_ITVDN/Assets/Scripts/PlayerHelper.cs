@@ -13,6 +13,7 @@ public class PlayerHelper : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
     }
+
     public void RunAttack()
     {
         _animator.SetTrigger("Attack");

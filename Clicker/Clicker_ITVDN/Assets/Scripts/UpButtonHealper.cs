@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 public class UpButtonHealper : MonoBehaviour
 {
+
     public GameObject UpPrefab;
+    public GameObject HeroPrefab;
+
+    public bool IsHero;
+    public bool IsRuby;
     public Text DamageText;
     public Text PriceText;
     public Image IconImage;
@@ -32,10 +37,30 @@ public class UpButtonHealper : MonoBehaviour
 
     public void UpClick()
     {
-        if (_gameHelper.PlayerGold >= Price)
+        if (!IsRuby && _gameHelper.PlayerGold >= Price
+            || 
+            IsRuby && _gameHelper.PlayerRuby >= Price)
         {
-            _gameHelper.PlayerGold -= Price;
-            _gameHelper.PlayerDamage += Damage;
+            if (!IsRuby)
+            {
+                _gameHelper.PlayerGold -= Price;
+            }
+            else
+            {
+                _gameHelper.PlayerRuby -= Price;
+            }
+
+            if (!IsHero)
+            {
+                _gameHelper.PlayerDamage += Damage;
+            }
+            else
+            {
+                GameObject hero = Instantiate(HeroPrefab) as GameObject;
+                Vector2 heroPos = new Vector2(Random.Range(3.5f, 7.0f), -1.7f);
+                hero.transform.position = heroPos;
+
+            }
 
             GameObject upObj = Instantiate(UpPrefab) as GameObject;
             Transform canvas = GameObject.Find("Canvas").transform;
@@ -43,7 +68,11 @@ public class UpButtonHealper : MonoBehaviour
             upObj.GetComponent<Image>().sprite = IconImage.sprite;
             Destroy(upObj, 055f);
 
-            Destroy(gameObject);
+
+            if (!IsHero)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
