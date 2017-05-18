@@ -28,6 +28,7 @@ public class GameHelper : MonoBehaviour
 
     private int _count = 0;
     private int _totalPlayerGold;
+    private float _gameTime = 120;
     private float _currentTime;
 
     public bool EndGame { get; private set; }
@@ -44,8 +45,8 @@ public class GameHelper : MonoBehaviour
     void Timer()
     {
         _currentTime++;
-        GameTimeTextUI.text = (GameTime - _currentTime).ToString();
-        if (_currentTime >= GameTime)
+        GameTimeTextUI.text = (_gameTime - _currentTime).ToString();
+        if (_currentTime >= _gameTime)
         {
             Time.timeScale = 0;
             EndGame = true;
