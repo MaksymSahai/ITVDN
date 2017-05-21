@@ -1,95 +1,103 @@
-﻿using System.Collections;
+﻿using Monster;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameHelper : MonoBehaviour
+namespace GameManagment
 {
-    const int Freeq = 3;
-
-    public EndMenuHealper EndMenuHealper;
-
-    public float GameTime = 10;
-    public Text GameTimeTextUI;
-    public Slider HealthSlider;
-    public Transform StartPosition;
-
-    public GameObject GoldPrefab;
-    public GameObject RubyPrefab;
-    public GameObject[] MonstersPrefabs;
-
-    public Text PlayerGoldUI;
-    public Text RubyTextUI;
-    public Text DamageTextUI;
-
-    public int PlayerGold;
-    public int PlayerRuby;
-    public int PlayerDamage = 10;
-
-    private int _count = 0;
-    private int _totalPlayerGold;
-    private float _currentTime;
-
-    public bool EndGame { get; private set; }
-
-
-    // Use this for initialization
-    void Start()
+    public class GameHelper : MonoBehaviour
     {
-        Time.timeScale = 1;
-        SpawnMonster();
-        InvokeRepeating("Timer", time: 0, repeatRate: 1);
-    }
+        const int Freeq = 3;
 
-    void Timer()
-    {
-        _currentTime++;
-        GameTimeTextUI.text = (GameTime - _currentTime).ToString();
-        if (_currentTime >= GameTime)
+        public EndMenuHealper EndMenuHealper;
+
+        public Text GameTimeTextUI;
+        public Slider HealthSlider;
+        public Text HealthText;
+        public Transform StartPosition;
+
+        public GameObject GoldPrefab;
+        public GameObject RubyPrefab;
+        public GameObject[] MonstersPrefabs;
+
+        public Text PlayerGoldUI;
+        public Text RubyTextUI;
+        public Text DamageTextUI;
+
+        public int PlayerGold;
+        public int PlayerRuby;
+        public int PlayerDamage = 10;
+
+        private int _count = 0;
+        private int _totalPlayerGold;
+        private float _currentTime;
+        private HealthHelper _healthHelper;
+
+        public bool EndGame { get; private set; }
+
+
+        // Use this for initialization
+        void Start()
         {
-            Time.timeScale = 0;
-            EndGame = true;
-            EndMenuHealper.gameObject.SetActive(true);
-            EndMenuHealper.ShowEndScore(_totalPlayerGold);
+            _currentTime = 0;
+            Time.timeScale = 1;
+            SpawnMonster();
+            _healthHelper = FindObjectOfType<HealthHelper>();
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        PlayerGoldUI.text = PlayerGold.ToString();
-        RubyTextUI.text = PlayerRuby.ToString();
-        DamageTextUI.text = PlayerDamage.ToString();
+        void Timer()
+        {
+            _currentTime++;
+            GameTimeTextUI.text = "Time left: " + (_healthHelper.TimeToKill - _currentTime).ToString();
+            if (_currentTime >= _healthHelper.TimeToKill)
+            {
+                Time.timeScale = 0;
+                EndGame = true;
+                EndMenuHealper.gameObject.SetActive(true);
+                EndMenuHealper.ShowEndScore(_totalPlayerGold);
+            }
+        }
 
-    }
+        // Update is called once per frame
+        void Update()
+        {
+            PlayerGoldUI.text = PlayerGold.ToString();
+            RubyTextUI.text = PlayerRuby.ToString();
+            DamageTextUI.text = PlayerDamage.ToString();
 
-    public void TakeGold(int gold)
-    {
-        PlayerGold += gold;
-        _totalPlayerGold += gold;
-        GameObject goldObj = Instantiate(GoldPrefab) as GameObject;
-        Destroy(goldObj, 1);
-        SpawnMonster();
-    }
+        }
 
-    public void TakeRuby(int ruby)
-    {
-        PlayerRuby += ruby;
-        GameObject rubyObj = Instantiate(RubyPrefab) as GameObject;
-        Destroy(rubyObj, 3);
-    }
+        public void TakeGold(int gold)
+        {
+            PlayerGold += gold;
+            _totalPlayerGold += gold;
+            GameObject goldObj = Instantiate(GoldPrefab) as GameObject;
+            Destroy(goldObj, 1);
+            SpawnMonster();
+        }
 
-    public void SpawnMonster()
-    {
-        _count++;
-        int randomMaxValue = _count / Freeq + 1;
+        public void TakeRuby(int ruby)
+        {
+            PlayerRuby += ruby;
+            GameObject rubyObj = Instantiate(RubyPrefab) as GameObject;
+            Destroy(rubyObj, 3);
+        }
 
-        if (randomMaxValue >= MonstersPrefabs.Length)
-            randomMaxValue = MonstersPrefabs.Length;
+        public void SpawnMonster()
+        {
+            _count++;
+            _currentTime = 0;
+            InvokeRepeating("Timer", time: 0, repeatRate: 1);
+            int randomMaxValue = _count / Freeq + 1;
 
-        int index = Random.Range(0, randomMaxValue);
+            if (randomMaxValue >= MonstersPrefabs.Length)
+                randomMaxValue = MonstersPrefabs.Length;
 
-        GameObject monsterObj = Instantiate(MonstersPrefabs[index]) as GameObject;
-        monsterObj.transform.position = StartPosition.position;
+            int index = Random.Range(0, randomMaxValue);
+
+            GameObject monsterObj = Instantiate(MonstersPrefabs[index]) as GameObject;
+            monsterObj.transform.position = StartPosition.position;
+        }
     }
 }

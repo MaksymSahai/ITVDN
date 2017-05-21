@@ -3,32 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletHealper : MonoBehaviour
+namespace Hero
 {
-
-    private HealthHelper _healthHelper;
-    public int Damage { get; set; }
-
-    // Use this for initialization
-    void Start()
+    public class BulletHealper : MonoBehaviour
     {
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (_healthHelper == null)
-            _healthHelper = GameObject.FindObjectOfType<HealthHelper>();
-        else
+        private HealthHelper _healthHelper;
+        public int Damage { get; set; }
+
+        // Use this for initialization
+        void Start()
         {
-            transform.position = Vector2.MoveTowards(transform.position,
-                _healthHelper.transform.position,
-                Time.deltaTime * 10f);
+        }
 
-            if (Vector2.Distance(transform.position, _healthHelper.transform.position) < 0.1f)
+        // Update is called once per frame
+        void Update()
+        {
+            if (_healthHelper == null)
+                _healthHelper = GameObject.FindObjectOfType<HealthHelper>();
+            else
             {
-                _healthHelper.GetHit(Damage);
-                Destroy(gameObject);
+                transform.position = Vector2.MoveTowards(transform.position,
+                    _healthHelper.transform.position,
+                    Time.deltaTime * 10f);
+
+                if (Vector2.Distance(transform.position, _healthHelper.transform.position) < 0.1f)
+                {
+                    _healthHelper.GetHit(Damage);
+                    Destroy(gameObject);
+                }
             }
         }
     }

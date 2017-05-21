@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GameManagment;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Monster
         public int MaxHealth = 100;
         public int Health = 100;
         public int Gold = 90;
+        public float TimeToKill = 3.0f;
 
         private GameHelper _gameHelper;
         private Animator _animator;
@@ -24,6 +26,8 @@ namespace Monster
             _gameHelper = GameObject.FindObjectOfType<GameHelper>();
             _gameHelper.HealthSlider.maxValue = MaxHealth;
             _gameHelper.HealthSlider.value = MaxHealth;
+            _gameHelper.HealthText.text = Health.ToString() + "/" + MaxHealth.ToString();
+            _gameHelper.HealthText.color = Color.green;
         }
 
         public void GetHit(int damage)
@@ -49,6 +53,14 @@ namespace Monster
             _animator.SetTrigger("Hit");
             Health = health;
             _gameHelper.HealthSlider.value = Health;
+
+            if ((MaxHealth / 3) * 2 > Health)
+                _gameHelper.HealthText.color = Color.yellow;
+
+            if (MaxHealth / 3 >= Health)
+                _gameHelper.HealthText.color = Color.red;
+
+            _gameHelper.HealthText.text = Health.ToString() + "/" + MaxHealth.ToString();
         }
     }
 }
