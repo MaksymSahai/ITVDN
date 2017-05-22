@@ -19,7 +19,9 @@ namespace Monster
 
         private bool _isDead = false;
 
-        // Use this for initialization
+        /// <summary>
+        /// Start Method to initialization health healper.
+        /// </summary>
         private void Start()
         {
             _animator = GetComponent<Animator>();
@@ -30,6 +32,10 @@ namespace Monster
             _gameHelper.HealthText.color = Color.green;
         }
 
+        /// <summary>
+        /// Gets damage to monster.
+        /// </summary>
+        /// <param name="damage">Damage value.</param>
         public void GetHit(int damage)
         {
             if (_isDead)

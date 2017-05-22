@@ -23,7 +23,9 @@ namespace Player
 
         private GameHelper _gameHelper;
 
-        // Use this for initialization
+        /// <summary>
+        /// Start method to powerUps buttons.
+        /// </summary>
         void Start()
         {
             _gameHelper = GameObject.FindObjectOfType<GameHelper>();
@@ -32,12 +34,9 @@ namespace Player
             PriceText.text = Price.ToString();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
+        /// <summary>
+        /// On Click methods of buttons, sets power up to player.
+        /// </summary>
         public void UpClick()
         {
             if (!IsRuby && _gameHelper.PlayerGold >= Price

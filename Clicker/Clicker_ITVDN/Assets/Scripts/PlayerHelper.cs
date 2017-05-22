@@ -11,11 +11,17 @@ namespace Player
 
         private Animator _animator;
 
+        /// <summary>
+        /// Start method to player.
+        /// </summary>
         private void Start()
         {
             _animator = GetComponent<Animator>();
         }
 
+        /// <summary>
+        /// Method set palyer attack animation.
+        /// </summary>
         public void RunAttack()
         {
             _animator.SetTrigger("Attack");

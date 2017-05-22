@@ -12,17 +12,18 @@ namespace Hero
 
 
 
-        // Use this for initialization
+        /// <summary>
+        /// Start method to hero, start attack coroutine.
+        /// </summary>
         void Start()
         {
             StartCoroutine(Attack());
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        }
-
+        /// <summary>
+        /// Attack coroutines.
+        /// </summary>
+        /// <returns>Damage from hero one per AttackSpeed.</returns>
         IEnumerator Attack()
         {
             yield return new WaitForSeconds(AttackSpeed);

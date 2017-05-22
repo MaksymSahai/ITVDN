@@ -9,14 +9,15 @@ namespace Hero
     {
 
         private HealthHelper _healthHelper;
+
+        /// <summary>
+        /// Gets or sets bullet damage.
+        /// </summary>
         public int Damage { get; set; }
 
-        // Use this for initialization
-        void Start()
-        {
-        }
-
-        // Update is called once per frame
+        /// <summary>
+        /// Update is called once per frame.
+        /// </summary>
         void Update()
         {
             if (_healthHelper == null)

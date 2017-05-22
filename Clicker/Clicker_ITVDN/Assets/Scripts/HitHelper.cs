@@ -10,9 +10,12 @@ namespace Monster
     {
         private HealthHelper _healthHelper;
 
-        GameHelper _gameHelper;
-        PlayerHelper _playerHelper;
+        private GameHelper _gameHelper;
+        private PlayerHelper _playerHelper;
 
+        /// <summary>
+        /// Start mehtod.
+        /// </summary>
         private void Start()
         {
             
@@ -21,6 +24,9 @@ namespace Monster
             _playerHelper = GameObject.FindObjectOfType<PlayerHelper>();
         }
 
+        /// <summary>
+        /// Method on Click on monster.
+        /// </summary>
         private void OnMouseDown()
         {
             if (_gameHelper.EndGame)
