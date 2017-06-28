@@ -1,23 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PokemonHelper : MonoBehaviour
 {
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    public PokemonModel MyPokemonModel { get; set; }
 
     void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
+    }
+
+    public void LoadPokemon(PokemonModel item)
+    {
+        MyPokemonModel = item;
     }
 }

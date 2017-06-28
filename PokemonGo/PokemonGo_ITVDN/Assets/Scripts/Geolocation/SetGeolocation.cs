@@ -19,14 +19,14 @@ public class SetGeolocation : MonoBehaviour
     void Awake()
     {
         _gameHelper = GameObject.FindObjectOfType<GameHelper>();
-        gpsFix = _gameHelper.gpsFix;
+        gpsFix = _gameHelper.GpsFix;
     }
 
     IEnumerator Start()
     {
         while (!gpsFix)
         {
-            gpsFix = _gameHelper.gpsFix;
+            gpsFix = _gameHelper.GpsFix;
             yield return null;
         }
         initX = _gameHelper.IniRef.x;

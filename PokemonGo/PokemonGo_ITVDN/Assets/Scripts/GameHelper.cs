@@ -8,11 +8,8 @@ public class GameHelper : MonoBehaviour
     const string Key = "cydP18CWm7BCYetAANI4DOPcbl8ssckL";
     const int WaitTime = 10;
 
-    public bool gpsFix { get; set; }
+    public bool GpsFix { get; set; }
 
-    /// <summary>
-    /// Url propertyes
-    /// </summary>
     string Url = "";
     public Transform myMap;
     int _multiplier = 2; //1 для size=640x640 tile, 2 для size=1280*1280
@@ -21,7 +18,7 @@ public class GameHelper : MonoBehaviour
     public Text StatusText;
 
     public Vector2 PlayerPosition =
-        new Vector2(50.254620f, 28.658708f);  //Latitude, Longitude
+        new Vector2(50.437990f, 30.521626f);  //(50.254620f, 28.658708f);  //Latitude, Longitude
 
     private double tempLat;
     private double tempLon;
@@ -90,7 +87,7 @@ public class GameHelper : MonoBehaviour
             _iniRef.z = (float)((_iniRef.z * 20037508.34 / 180) / 100);
             _iniRef.y = 0;
 
-            gpsFix = true;
+            GpsFix = true;
             ///Все гуд
             LoadMap(PlayerPosition);
         }
@@ -107,13 +104,13 @@ public class GameHelper : MonoBehaviour
     private Vector3 _newUserPos;
     void UpdateMap()
     {
-        if (gpsFix && _mapLoaded)
+        if (GpsFix && _mapLoaded)
             LoadMap(PlayerPosition);
     }
 
     void UpdateMyPosition()
     {
-        if (gpsFix)
+        if (GpsFix)
         {
             LocationInfo loc = Input.location.lastData;
             if (PlayerPosition.x != loc.latitude)
